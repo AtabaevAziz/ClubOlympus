@@ -2,7 +2,6 @@ package com.example.clubolympus;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
-
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -12,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.example.clubolympus.data.ClubOlympusContract.MemberEntry;
 
 public class AddMemberActivity extends AppCompatActivity {
 
@@ -31,6 +32,8 @@ public class AddMemberActivity extends AppCompatActivity {
         lastNameEditText = findViewById(R.id.lastNameEditText);
         genderSpinner = findViewById(R.id.genderSpinner);
         groupEditText = findViewById(R.id.groupEditText);
+        genderSpinner = findViewById(R.id.genderSpinner);
+
 
         spinnerAdapter = ArrayAdapter.createFromResource(this,
                 R.array.array_gender, android.R.layout.simple_spinner_item);
@@ -44,11 +47,11 @@ public class AddMemberActivity extends AppCompatActivity {
                 String selectedGender = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selectedGender)) {
                     if (selectedGender.equals("Male")) {
-                        gender = 1;
+                        gender = MemberEntry.GENDER_MALE;
                     } else if (selectedGender.equals("Female")) {
-                        gender = 2;
+                        gender = MemberEntry.GENDER_FEMALE;
                     } else {
-                        gender = 0;
+                        gender = MemberEntry.GENDER_UNKNOWN;
                     }
                 }
             }
