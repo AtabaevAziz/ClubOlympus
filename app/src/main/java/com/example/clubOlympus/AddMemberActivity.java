@@ -1,4 +1,4 @@
-package com.example.clubolympus;
+package com.example.clubOlympus;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.example.clubolympus.data.ClubOlympusContract.MemberEntry;
+import com.example.clubOlympus.data.ClubOlympusContract.MemberEntry;
 
 public class AddMemberActivity extends AppCompatActivity {
 
@@ -82,5 +82,10 @@ public class AddMemberActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void insertMember() {
+
+        String firstName =
     }
 }

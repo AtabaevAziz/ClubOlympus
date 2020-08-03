@@ -1,14 +1,23 @@
-package com.example.clubolympus.data;
+package com.example.clubOlympus.data;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 public final class ClubOlympusContract {
+
     private ClubOlympusContract() {
 
     }
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "olympus";
+
+    public static final String SCHEME = "content://";
+    public static final String AUTHORITY = "com.example.clubOlympus";
+    public static final String PATH_MEMBERS = "members";
+
+    public static final Uri BASE_CONTENT_URI =
+            Uri.parse(SCHEME + AUTHORITY);
 
     public static final class MemberEntry implements BaseColumns {
 
@@ -23,6 +32,9 @@ public final class ClubOlympusContract {
         public static final int GENDER_UNKNOWN = 0;
         public static final int GENDER_MALE = 1;
         public static final int GENDER_FEMALE = 2;
+
+        public static final Uri CONTENT_URI =
+                Uri.withAppendedPath(BASE_CONTENT_URI, PATH_MEMBERS);
     }
 
 }

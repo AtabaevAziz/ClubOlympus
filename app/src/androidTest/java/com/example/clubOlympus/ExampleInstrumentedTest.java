@@ -1,4 +1,4 @@
-package com.example.clubolympus;
+package com.example.clubOlympus;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

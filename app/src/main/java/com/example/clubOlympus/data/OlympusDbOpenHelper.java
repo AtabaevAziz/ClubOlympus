@@ -1,9 +1,9 @@
-package com.example.clubolympus.data;
+package com.example.clubOlympus.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.example.clubolympus.data.ClubOlympusContract.MemberEntry;
+import com.example.clubOlympus.data.ClubOlympusContract.MemberEntry;
 
 public class OlympusDbOpenHelper extends SQLiteOpenHelper {
     public OlympusDbOpenHelper(Context context) {
