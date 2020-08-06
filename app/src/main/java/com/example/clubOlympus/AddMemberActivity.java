@@ -31,7 +31,7 @@ public class AddMemberActivity extends AppCompatActivity {
         firstNameEditText = findViewById(R.id.firstNameEditText);
         lastNameEditText = findViewById(R.id.lastNameEditText);
         genderSpinner = findViewById(R.id.genderSpinner);
-        groupEditText = findViewById(R.id.groupEditText);
+        groupEditText = findViewById(R.id.sportEditText);
         genderSpinner = findViewById(R.id.genderSpinner);
 
 
@@ -86,6 +86,5 @@ public class AddMemberActivity extends AppCompatActivity {
 
     private void insertMember() {
 
-        String firstName =
     }
 }
