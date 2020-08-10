@@ -1,7 +1,8 @@
 package com.example.clubOlympus;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NavUtils;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -11,6 +12,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 import com.example.clubOlympus.data.ClubOlympusContract.MemberEntry;
 
@@ -18,10 +24,11 @@ public class AddMemberActivity extends AppCompatActivity {
 
     private EditText firstNameEditText;
     private EditText lastNameEditText;
-    private EditText groupEditText;
+    private EditText sportEditText;
     private Spinner genderSpinner;
     private int gender = 0;
     private ArrayAdapter spinnerAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +37,7 @@ public class AddMemberActivity extends AppCompatActivity {
 
         firstNameEditText = findViewById(R.id.firstNameEditText);
         lastNameEditText = findViewById(R.id.lastNameEditText);
-        genderSpinner = findViewById(R.id.genderSpinner);
-        groupEditText = findViewById(R.id.sportEditText);
+        sportEditText = findViewById(R.id.sportEditText);
         genderSpinner = findViewById(R.id.genderSpinner);
 
 
@@ -70,9 +76,10 @@ public class AddMemberActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_member:
+                insertMember();
                 return true;
             case R.id.delete_member:
                 return true;
@@ -80,11 +87,28 @@ public class AddMemberActivity extends AppCompatActivity {
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     private void insertMember() {
 
+        String firstName = firstNameEditText.getText().toString().trim();
+        String lastName = lastNameEditText.getText().toString().trim();
+        String sport = sportEditText.getText().toString().trim();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MemberEntry.COLUMN_FIRST_NAME, firstName);
+        contentValues.put(MemberEntry.COLUMN_LAST_NAME, lastName);
+        contentValues.put(MemberEntry.COLUMN_SPORT, sport);
+        contentValues.put(MemberEntry.COLUMN_GENDER, gender);
+
+        ContentResolver contentResolver = getContentResolver();
+        Uri uri = contentResolver.insert(MemberEntry.CONTENT_URI, contentValues);
+
+        if (uri == null) {
+            Toast.makeText(this, "Insertion of data in the table failed", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Data saved", Toast.LENGTH_LONG).show();
+        }
     }
 }
