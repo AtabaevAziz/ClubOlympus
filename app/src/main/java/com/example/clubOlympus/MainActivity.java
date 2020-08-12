@@ -4,14 +4,23 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 import com.example.clubOlympus.data.ClubOlympusContract.MemberEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final int MEMBER_LOADER = 123;
+    MemberCursorAdapter memberCursorAdapter;
 
     TextView dataTextView;
 
@@ -30,27 +39,28 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,
                         AddMemberActivity.class);
                 startActivity(intent);
-
             }
         });
+
+        memberCursorAdapter = new MemberCursorAdapter(this,
+                null, false);
+
+        getSupportLoaderManager().initLoader(MEMBER_LOADER,
+                null, this);
     }
 
+    @NonNull
     @Override
-    protected void onStart() {
-        super.onStart();
-        displayData();
-    }
+    public Loader<Cursor> onCreateLoader(int i, @Nullable Bundle bundle) {
 
-    private void displayData() {
         String[] projection = {
                 MemberEntry._ID,
                 MemberEntry.COLUMN_FIRST_NAME,
                 MemberEntry.COLUMN_LAST_NAME,
-                MemberEntry.COLUMN_GENDER,
                 MemberEntry.COLUMN_SPORT
         };
 
-        Cursor cursor = getContentResolver().query(
+        CursorLoader cursorLoader = new CursorLoader(this,
                 MemberEntry.CONTENT_URI,
                 projection,
                 null,
@@ -58,34 +68,20 @@ public class MainActivity extends AppCompatActivity {
                 null
         );
 
-        dataTextView.setText("All memebers\n\n");
-        dataTextView.append( MemberEntry._ID + " " +
-                MemberEntry.COLUMN_FIRST_NAME + " " +
-                MemberEntry.COLUMN_LAST_NAME + " " +
-                MemberEntry.COLUMN_GENDER + " " +
-                MemberEntry.COLUMN_SPORT);
+        return cursorLoader;
+    }
 
-        int idIndex = cursor.getColumnIndex(MemberEntry._ID);
-        int idFirstName = cursor.getColumnIndex(MemberEntry.COLUMN_FIRST_NAME);
-        int idLastName = cursor.getColumnIndex(MemberEntry.COLUMN_LAST_NAME);
-        int idGender = cursor.getColumnIndex(MemberEntry.COLUMN_GENDER);
-        int idSport = cursor.getColumnIndex(MemberEntry.COLUMN_SPORT);
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
 
-        while (cursor.moveToNext()) {
-            int currentId = cursor.getInt(idIndex);
-            String currentFirstName = cursor.getString(idFirstName);
-            String currentLastName = cursor.getString(idLastName);
-            int currentGender = cursor.getInt(idGender);
-            String currentSport = cursor.getString(idSport);
+        memberCursorAdapter.swapCursor(cursor);
 
-            dataTextView.append("\n" +
-                    currentId + " " +
-                    currentFirstName + " " +
-                    currentLastName + " " +
-                    currentGender + " " +
-                    currentSport);
-        }
+    }
 
-        cursor.close();
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+
+        memberCursorAdapter.swapCursor(null);
+
     }
 }
