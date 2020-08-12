@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
-
 import com.example.clubOlympus.data.ClubOlympusContract.MemberEntry;
 
 public class MemberCursorAdapter extends CursorAdapter {
@@ -38,6 +37,5 @@ public class MemberCursorAdapter extends CursorAdapter {
         firstNameTextView.setText(firstName);
         lastNameTextView.setText(lastName);
         sportTextView.setText(sport);
-
     }
 }

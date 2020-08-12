@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -25,7 +24,6 @@ import androidx.core.app.NavUtils;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
-
 import com.example.clubOlympus.data.ClubOlympusContract.MemberEntry;
 
 public class AddMemberActivity extends AppCompatActivity
