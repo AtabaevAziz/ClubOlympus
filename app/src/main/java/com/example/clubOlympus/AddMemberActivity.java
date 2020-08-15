@@ -100,9 +100,10 @@ public class AddMemberActivity extends AppCompatActivity
 
         super.onPrepareOptionsMenu(menu);
 
+
         if (currentMemberUri == null) {
             MenuItem menuItem = menu.findItem(R.id.delete_member);
-            menuItem.setVisible(false);
+        //    menuItem.setVisible(false);
         }
 
         return true;
