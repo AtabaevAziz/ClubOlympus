@@ -5,11 +5,17 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 import com.example.clubOlympus.data.ClubOlympusContract.MemberEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int MEMBER_LOADER = 123;
     MemberCursorAdapter memberCursorAdapter;
@@ -34,14 +40,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        memberCursorAdapter = new MemberCursorAdapter(this,
-                null, false);
-    }
+        memberCursorAdapter = new MemberCursorAdapter(this, null, false);
+        dataListView.setAdapter(memberCursorAdapter);
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        displayData();
+        getSupportLoaderManager().initLoader(MEMBER_LOADER, null, this);
     }
 
     private void displayData() {
@@ -63,5 +65,41 @@ public class MainActivity extends AppCompatActivity {
 
         MemberCursorAdapter cursorAdapter = new MemberCursorAdapter(this, cursor, false);
         dataListView.setAdapter(cursorAdapter);
+    }
+
+    @NonNull
+    @Override
+    public Loader onCreateLoader(int i, @Nullable Bundle bundle) {
+
+        String[] projection = {
+                MemberEntry._ID,
+                MemberEntry.COLUMN_FIRST_NAME,
+                MemberEntry.COLUMN_LAST_NAME,
+                MemberEntry.COLUMN_SPORT
+        };
+
+        CursorLoader cursorLoader = new CursorLoader(this,
+                MemberEntry.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null
+        );
+
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
+
+        memberCursorAdapter.swapCursor(cursor);
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader loader) {
+
+        memberCursorAdapter.swapCursor(null);
+
     }
 }
